@@ -57,6 +57,8 @@ Hooks.on('getSceneControlButtons', function(hudButtons)
             },
             button: true
           };
+
+        console.log(JSON.stringify(hudButtons.tokens.tools.xCard)+" "+hudButtons.tokens.tools.xCard.button);
     } else {
         let hud = hudButtons.find(val => { return val.name == "token"; })
         if (hud) {
@@ -73,15 +75,15 @@ Hooks.on('getSceneControlButtons', function(hudButtons)
             });
         }
     }
-
-    console.log(JSON.stringify(hudButtons.tokens.tools.xCard)+" "+hudButtons.tokens.tools.xCard.button);
 });
 
 Hooks.once('ready', async function () {
 
     game.socket.on("module.XCard", data => {
-        let xc = new XCard();
-        xc.render(true);
+        if (game.user.isGM) {
+            let xc = new XCard();
+            xc.render(true);
+        }
     });
 
     game.settings.register("XCard", "imageToggle", {
